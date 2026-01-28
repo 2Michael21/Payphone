@@ -27,8 +27,8 @@ $data = [
     'email' => $email,
     'documentId' => $documentId,
     'reference' => $reference,
-    'responseUrl' => 'http://localhost/pagoseguro/confirma.php',
-    'cancellationUrl' => 'http://localhost',
+    'responseUrl' => 'http://localhost:8080/pagoseguro/confirma.php',
+    'cancellationUrl' => 'http://localhost:8080',
     'storeId' => '151907d5-0476-42c2-8f9d-ee424c5480bc' // StoreId real proporcionado
 ];
 

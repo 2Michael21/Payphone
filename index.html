@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Premium Online</title>
+    <title>Tienda Premium Online v2</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=7">
 
     <!-- Librerías de UI -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -37,6 +37,10 @@
         </button>
     </nav>
 
+    <div
+        style="background-color: #8b5cf6; color: white; padding: 20px; text-align: center; font-weight: bold; font-size: 24px;">
+        VERSION V5.0 - PUERTO 8080 FINAL 💜
+    </div>
     <div class="hero" data-aos="zoom-in" data-aos-duration="1000">
         <h1>Descubre lo Extraordinario</h1>
         <p>Explora nuestra colección exclusiva de productos seleccionados para ti.</p>
@@ -154,9 +158,38 @@
         <p>&copy; 2025 Mi Tienda Online. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <!-- Floating Orbs for Color Depth -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <div class="splash-content" data-aos="zoom-out" data-aos-duration="1000">
+            <div class="splash-logo">
+                <img src="https://ui-avatars.com/api/?name=Tienda+Online&background=4f46e5&color=fff&rounded=true&bold=true&size=128"
+                    alt="Logo">
+            </div>
+            <h1>Bienvenido a Mi Tienda</h1>
+            <p>Preparando la mejor experiencia para ti...</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+
     <script>
         // Inicializar AOS
         AOS.init();
+
+        // Splash Screen Logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.classList.add('fade-out');
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    // Trigger animations for main content if needed
+                }, 800);
+            }, 2000); // Exactly 2 seconds splash
+        });
 
         // Integración con backend PHP para crear la transacción PayPhone
         document.addEventListener('DOMContentLoaded', function () {
@@ -251,7 +284,7 @@
                 ppButtonDiv.innerHTML = '';
                 new PPaymentButtonBox({
                     token: 'SEY_ZM2WFaI-FLBMBxwFygIozoBXzoArIKJJt4a22YsDX02zoTGfCLKFd71E6WikC-M2fdJ_GD8gFdPD_AAogUTmeJURL2MVB_EFi1We0yPdr3LpyntFwX7vwXvhFjQ2bkaoEyLxEG7ZHiQMtLc8KNzpBRkSYbQdmjrWXIIMChPzspO8PWWKXQubG0nEdfYuW4lax0DRUTub3BCbOeOBJ3DYne88IpG4qhUys8uO70WnyU2uESsnBRFXyPWn443XueFjEVZ0pbqfl8XNHPujPGjzgd1VaUl2r0gvzhlF4Pcn7k8wurgT5-qoN6WuvD0cqtd8Tw',
-                    clientTransactionId: 'pp_' + Date.now(),
+                    clientTransactionId: 'pp_fix_' + Date.now(),
                     amount: amountCents,
                     amountWithoutTax: amountWithoutTax,
                     amountWithTax: amountWithTax,
@@ -268,7 +301,7 @@
                     email: email,
                     documentId: documentId,
                     identificationType: 1,
-                    responseUrl: 'http://localhost/form/pagoseguro/confirma.php'
+                    responseUrl: 'http://localhost:8080/pagoseguro/confirma.php'
                 }).render('pp-button');
             };
 

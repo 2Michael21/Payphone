@@ -36,6 +36,7 @@ if ($id && $clientTransactionId) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Confirmación de Pago</title>
@@ -43,11 +44,11 @@ if ($id && $clientTransactionId) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background: #f8fafc; 
-            margin: 0; 
-            padding: 0; 
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f8fafc;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -55,9 +56,10 @@ if ($id && $clientTransactionId) {
         }
     </style>
 </head>
+
 <body>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             <?php if ($id && $clientTransactionId): ?>
                 <?php if ($resultado): ?>
                     // Transacción Aprobada (o con estado obtenido)
@@ -68,27 +70,27 @@ if ($id && $clientTransactionId) {
                         var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
 
                         function randomInRange(min, max) {
-                          return Math.random() * (max - min) + min;
+                            return Math.random() * (max - min) + min;
                         }
 
-                        var interval = setInterval(function() {
-                          var timeLeft = animationEnd - Date.now();
+                        var interval = setInterval(function () {
+                            var timeLeft = animationEnd - Date.now();
 
-                          if (timeLeft <= 0) {
-                            return clearInterval(interval);
-                          }
+                            if (timeLeft <= 0) {
+                                return clearInterval(interval);
+                            }
 
-                          var particleCount = 50 * (timeLeft / duration);
-                          confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                          confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+                            var particleCount = 50 * (timeLeft / duration);
+                            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
                         }, 250);
-                        
+
                         Swal.fire({
                             title: '¡Pago Exitoso!',
                             html: `
                                 <div style="text-align: left; font-size: 1rem; line-height: 1.6;">
                                     <p><b>Transacción:</b> <?= htmlspecialchars($id) ?></p>
-                                    <p><b>Monto:</b> $<?= isset($resultado['amount']) ? number_format($resultado['amount']/100,2) : '-' ?></p>
+                                    <p><b>Monto:</b> $<?= isset($resultado['amount']) ? number_format($resultado['amount'] / 100, 2) : '-' ?></p>
                                     <p><b>Referencia:</b> <?= htmlspecialchars($resultado['reference'] ?? '-') ?></p>
                                     <p><b>Autorización:</b> <?= htmlspecialchars($resultado['authorizationCode'] ?? '-') ?></p>
                                 </div>
@@ -99,13 +101,13 @@ if ($id && $clientTransactionId) {
                             backdrop: `rgba(99, 102, 241, 0.1)`
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                window.location = 'http://localhost/form/index.html';
+                                window.location = '/index.html';
                             }
                         });
 
                     <?php else: ?>
                         // Transacción con otro estado (e.g. Rechazada, Pendiente)
-                         Swal.fire({
+                        Swal.fire({
                             title: 'Estado de la Transacción',
                             text: 'El estado es: <?= htmlspecialchars($resultado['transactionStatus'] ?? 'Desconocido') ?>',
                             icon: 'info',
@@ -113,7 +115,7 @@ if ($id && $clientTransactionId) {
                             allowOutsideClick: false
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                window.location = 'http://localhost/form/index.html';
+                                window.location = '/index.html';
                             }
                         });
                     <?php endif; ?>
@@ -129,8 +131,8 @@ if ($id && $clientTransactionId) {
                         window.location = 'http://localhost/form/index.html';
                     });
                 <?php else: ?>
-                     // Error desconocido
-                     Swal.fire({
+                    // Error desconocido
+                    Swal.fire({
                         title: 'Error',
                         text: 'No se pudo obtener la información del pago.',
                         icon: 'error',
@@ -153,4 +155,5 @@ if ($id && $clientTransactionId) {
         });
     </script>
 </body>
+
 </html>
