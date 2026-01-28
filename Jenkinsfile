@@ -18,14 +18,20 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                script {
+                    echo 'Running tests...'
+                    sh "docker run --rm ${DOCKER_IMAGE} find . -name '*.php' -exec php -l {} \\;"
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 script {
                     echo 'Deploying application...'
-                    // Check if container exists and remove it (ignore error if not exists)
                     sh "docker rm -f ${CONTAINER_NAME} || true"
-                    
-                    // Run the new container
                     sh "docker run -d --name ${CONTAINER_NAME} -p ${PORT}:80 ${DOCKER_IMAGE}"
                 }
             }
