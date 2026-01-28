@@ -1,10 +1,14 @@
 pipeline {
     agent any
 
+    tools {
+        dockerTool 'Dockertool' 
+    }
+
     environment {
         DOCKER_IMAGE = "payphone-app"
         CONTAINER_NAME = "payphone-container"
-        PORT = "8080"
+        PORT = "8081" 
     }
 
     stages {
@@ -12,7 +16,6 @@ pipeline {
             steps {
                 script {
                     echo 'Building Docker image...'
-                    // Build the image from the Dockerfile in the current directory
                     sh "docker build -t ${DOCKER_IMAGE} ."
                 }
             }
@@ -40,10 +43,10 @@ pipeline {
 
     post {
         success {
-            echo 'Deployment successful!'
+            echo "Deployment successful! Accede en: http://localhost:${PORT}"
         }
         failure {
-            echo 'Deployment failed.'
+            echo 'Deployment failed. Revisa los logs de la consola.'
         }
     }
 }
